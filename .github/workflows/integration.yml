@@ -1,0 +1,25 @@
+    name: Integration # Name of the workflow
+
+    on:
+      push:
+        branches: [ main ] # Trigger on push to main branch
+      pull_request:
+        branches: [ main ] # Trigger on pull requests to main branch
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest # OS to run the job on
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v3 # Checks out the repository
+
+        - name: Set up PHP
+          uses: shivammathur/setup-php@v2 # Sets up PHP
+          with:
+            php-version: '8.1' # Specify PHP version
+            extensions: mbstring, intl, dom # Add desired extensions
+
+        - name: Check Syntax
+          run: |
+            composer install --no-interaction --no-scripts --no-progress --prefer-dist
+            vendor/bin/phpcs --standard=PSR12 src tests
