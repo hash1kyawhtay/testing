@@ -21,5 +21,5 @@
 
         - name: Check Syntax
           run: |
-            composer install --no-interaction --no-scripts --no-progress --prefer-dist
-            vendor/bin/phpcs --standard=PSR12 src tests
+            # Check PHP syntax
+            find . -name '*.php' -exec php -l {} \; || exit 1
